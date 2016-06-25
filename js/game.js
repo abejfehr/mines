@@ -41,8 +41,9 @@ class Cell {
      * Creates an element on the screen
      */
     createElement () {
-        this.element = document.createElement('td');
+        this.element = document.createElement('div');
         this.element.className = 'cell';
+        this.element.addEventListener('click', (e) => { e.preventDefault(); return false; });
         this.element.addEventListener('mousedown', this._handleMouseDown.bind(this));
         this.element.addEventListener('mouseup', this._handleMouseUp.bind(this));
 
@@ -57,6 +58,7 @@ class Cell {
      * Toggles the flagged status of the cell
      */
     toggleFlagged () {
+        if (this.isExploded || this.isRevealed) return;
         if (this.element.className.indexOf('flagged') === -1) {
             this.element.className += ' flagged';
         } else {
@@ -133,6 +135,11 @@ class Cell {
 const MINE_ODDS = 0.15;
 
 /**
+ * The size of the playing field
+ */
+const FIELD_SIZE = 10;
+
+/**
  * The minefield
  */
 var minefield;
@@ -144,7 +151,8 @@ var createField = (size, canvas) => {
     var field = [];
     for (let i = 0; i < size; ++i) {
         field.push([]);
-        var tr = document.createElement('tr');
+        var tr = document.createElement('div');
+        tr.className += 'row';
         for (let j = 0; j < size; ++j) {
             cell = new Cell(i, j);
             cell.isMine = Math.random() < MINE_ODDS ? true : false;
@@ -161,7 +169,11 @@ var handleReveal = (row, col) => {
     var count = 0;
 
     // Don't run this function sometimes
-    if ((row < 0 || row > 9 || col < 0 || col > 9) || minefield[row][col].isRevealed || minefield[row][col].isFlagged || minefield[row][col].isMine) return;
+    if ((row < 0 || row > FIELD_SIZE - 1 || col < 0 || col > FIELD_SIZE - 1) ||
+        minefield[row][col].isRevealed ||
+        minefield[row][col].isFlagged ||
+        minefield[row][col].isMine)
+        return;
 
     // Reveal the cell
     minefield[row][col].reveal(count);
@@ -189,7 +201,7 @@ var handleReveal = (row, col) => {
     minefield[row][col].setValue(count);
 }
 
-minefield = createField(10, document.getElementById('minefield'));
+minefield = createField(FIELD_SIZE, document.getElementById('minefield'));
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('serviceworker.js').catch(function(err) {
