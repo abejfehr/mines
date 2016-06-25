@@ -192,7 +192,7 @@ var handleReveal = (row, col) => {
 minefield = createField(10, document.getElementById('minefield'));
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/serviceworker.js').catch(function(err) {
+  navigator.serviceWorker.register('serviceworker.js').catch(function(err) {
     console.error('ServiceWorker registration failed: ', err);
   });
 }
