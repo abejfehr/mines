@@ -11,8 +11,8 @@ const CACHE_NAME = 'minesweeper-cache-v0.0.2';
  */
 let handleInstall = function(event) {
     var urlsToCache = [
-        '/',
-        '/js/game.js'
+        'index.html',
+        'js/game.js'
     ];
 
     event.waitUntil(
