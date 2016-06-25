@@ -43,7 +43,7 @@ class Cell {
     createElement () {
         this.element = document.createElement('div');
         this.element.className = 'cell';
-        this.element.addEventListener('click', (e) => { e.preventDefault(); return false; });
+        this.element.addEventListener('click', () => { return false; });
         this.element.addEventListener('mousedown', this._handleMouseDown.bind(this));
         this.element.addEventListener('mouseup', this._handleMouseUp.bind(this));
 
@@ -201,6 +201,7 @@ var handleReveal = (row, col) => {
     minefield[row][col].setValue(count);
 }
 
+document.addEventListener('selectstart', () => { return false; });
 minefield = createField(FIELD_SIZE, document.getElementById('minefield'));
 
 if ('serviceWorker' in navigator) {
