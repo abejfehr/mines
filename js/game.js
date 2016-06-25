@@ -44,6 +44,7 @@ class Cell {
         this.element = document.createElement('div');
         this.element.className = 'cell';
         this.element.addEventListener('click', () => { return false; });
+        this.element.addEventListener('mouseout', () => { this.actionCompleted = true; });
         this.element.addEventListener('mousedown', this._handleMouseDown.bind(this));
         this.element.addEventListener('mouseup', this._handleMouseUp.bind(this));
 
@@ -79,26 +80,32 @@ class Cell {
     /**
      * Event handlers
      */
-    _handleMouseUp () {
+    _handleMouseUp (e) {
+        e.preventDefault();
+        console.log('mouseup');
         if (this.longPressTimer && !this.actionCompleted) {
             clearTimeout(this.longPressTimer);
             this._handleClick();
-            this.actionCompleted = true;
         }
+        this.actionCompleted = true;
     }
 
-    _handleMouseDown () {
-        this.actionCompleted = false;
-        this.longPressTimer = window.setTimeout(() => {
-            if (!this.actionCompleted) {
-                this.toggleFlagged();
-                this.actionCompleted = true;
-            }
-        }, 500);
+    _handleMouseDown (e) {
+        e.preventDefault();
+        if (event.which === 1) {
+            this.actionCompleted = false;
+            this.longPressTimer = window.setTimeout(() => {
+                if (!this.actionCompleted) {
+                    this.toggleFlagged();
+                    this.actionCompleted = true;
+                }
+            }, 500);
+        }
         return false;
     }
 
     _handleClick () {
+
         // On some cells we don't need to do anything
         if (this.isExploded || this.isRevealed || this.isFlagged) return;
 
@@ -108,10 +115,8 @@ class Cell {
             return;
         }
 
-        // We reveal every other cell
-        // Finally, check how many cells around it contain a mine
+        // Reveal this cell
         this._revealHandler(this.row, this.col);
-        // reveal(row, col, false);
     }
 
     onReveal (revealHandler) {
