@@ -1,10 +1,10 @@
 {
-  "name": "Minesweeper",
-  "short_name": "Minesweeper",
+  "name": "Mines",
+  "short_name": "Mines",
   "start_url": "./index.html",
   "lang": "en-CA",
   "display": "standalone",
-  "orientation": "landscape",
+  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#4527a0",
   "icons": [{
