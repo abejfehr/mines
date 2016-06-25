@@ -91,7 +91,7 @@ class Cell {
 
     _handleMouseDown (e) {
         e.preventDefault();
-        if (event.which === 1) {
+        // if (event.which === 1) {
             this.actionCompleted = false;
             this.longPressTimer = window.setTimeout(() => {
                 if (!this.actionCompleted) {
@@ -99,7 +99,7 @@ class Cell {
                     this.actionCompleted = true;
                 }
             }, 500);
-        }
+        // }
         return false;
     }
 
