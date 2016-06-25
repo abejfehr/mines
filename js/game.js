@@ -82,7 +82,6 @@ class Cell {
      */
     _handleMouseUp (e) {
         e.preventDefault();
-        console.log('mouseup');
         if (this.longPressTimer && !this.actionCompleted) {
             clearTimeout(this.longPressTimer);
             this._handleClick();
