@@ -137,7 +137,7 @@ const MINE_ODDS = 0.15;
 /**
  * The size of the playing field
  */
-const FIELD_SIZE = 10;
+const FIELD_SIZE = 8;
 
 /**
  * The minefield
