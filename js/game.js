@@ -98,7 +98,7 @@ class Cell {
                 this.toggleFlagged();
                 this.actionCompleted = true;
             }
-        }, 400);
+        }, 250);
         return false;
     }
 
