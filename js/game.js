@@ -76,6 +76,7 @@ class Cell {
         this.isExploded = true;
         this.isRevealed = true;
         this.element.className += ' exploded';
+        this._explodeHandler(this.row, this.col);
     }
 
     /**
@@ -121,6 +122,10 @@ class Cell {
         this._revealHandler = revealHandler;
     }
 
+    onExplode (explodeHandler) {
+        this._explodeHandler = explodeHandler;
+    }
+
     reveal () {
         this.isRevealed = true;
         this.element.className += ' revealed';
@@ -159,13 +164,34 @@ var createField = (size, canvas) => {
         for (let j = 0; j < size; ++j) {
             cell = new Cell(i, j);
             cell.isMine = Math.random() < MINE_ODDS ? true : false;
-            cell.onReveal(handleReveal.bind(this));
+            cell.onReveal(handleReveal);
+            cell.onExplode(handleExplode);
             tr.appendChild(cell.createElement());
             field[i].push(cell);
         }
         canvas.appendChild(tr);
     }
     return field;
+}
+
+var handleExplode = (row, col) => {
+    var shortest = [-1, -1, Infinity];
+
+    minefield.map((x, r) => {
+        x.map((cell, c) => {
+            // Get the Euclidean distance between the two cells
+            var distance = Math.sqrt(Math.pow(Math.abs(col - c), 2) + Math.pow(Math.abs(row - r), 2));
+            if (distance < shortest[2] && cell.isMine && !cell.isExploded) {
+                shortest = [r, c, distance];
+            }
+        });
+    });
+
+    if (shortest[0] >= 0 && shortest[1] >= 0) {
+        // Explode that cell 100 ms later
+        var next = minefield[shortest[0]][shortest[1]];
+        setTimeout(next.explode.bind(next), 50);
+    }
 }
 
 var handleReveal = (row, col) => {
