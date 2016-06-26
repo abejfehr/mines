@@ -78,8 +78,13 @@ class Cell {
         this.element.className += ' exploded';
         this._explodeHandler(this.row, this.col);
 
-        // Vibrate the phone, if that's a feature
-        window.navigator.vibrate(200);
+        // Vibrate the device
+        window.navigator.vibrate(45);
+        var flash = document.getElementById('flash');
+        flash.className += 'flashing';
+        setTimeout(() => {
+            flash.className = flash.className.replace(/flashing/,'')
+        }, 100)
     }
 
     /**
