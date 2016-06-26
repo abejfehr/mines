@@ -77,6 +77,9 @@ class Cell {
         this.isRevealed = true;
         this.element.className += ' exploded';
         this._explodeHandler(this.row, this.col);
+
+        // Vibrate the phone, if that's a feature
+        window.navigator.vibrate(200);
     }
 
     /**

@@ -93,6 +93,12 @@
                 to   { opacity: 1; }
             }
 
+            @keyframes explode {
+                0% { box-shadow: 0 0 1px orange; }
+                15% { box-shadow: 0 0 90px orange; }
+                100%   { box-shadow: none; }
+            }
+
             .cell-content {
                 font-size: 4.5vw;
                 font-family: sans-serif;
@@ -107,6 +113,8 @@
                 background-color: orange;
                 background-position: center center;
                 background-repeat: no-repeat;
+                animation: explode 1.7s;
+                animation-fill-mode: forwards;
             }
 
             .revealed {
