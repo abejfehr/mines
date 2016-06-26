@@ -47,6 +47,7 @@ class Cell {
         this.element.addEventListener('mouseout', () => { this.actionCompleted = true; });
         this.element.addEventListener('mousedown', this._handleMouseDown.bind(this));
         this.element.addEventListener('mouseup', this._handleMouseUp.bind(this));
+        this.element.addEventListener('oncontextmenu', () => { return false; });
 
         var contents = document.createElement('div');
         contents.className = 'cell-content';
@@ -91,15 +92,13 @@ class Cell {
 
     _handleMouseDown (e) {
         e.preventDefault();
-        // if (event.which === 1) {
-            this.actionCompleted = false;
-            this.longPressTimer = window.setTimeout(() => {
-                if (!this.actionCompleted) {
-                    this.toggleFlagged();
-                    this.actionCompleted = true;
-                }
-            }, 500);
-        // }
+        this.actionCompleted = false;
+        this.longPressTimer = window.setTimeout(() => {
+            if (!this.actionCompleted) {
+                this.toggleFlagged();
+                this.actionCompleted = true;
+            }
+        }, 400);
         return false;
     }
 
