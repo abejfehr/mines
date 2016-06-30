@@ -4,7 +4,7 @@
  * @author Abe Fehr
  */
 
-const CACHE_NAME = 'minesweeper-cache-v0.0.2';
+const CACHE_NAME = 'minesweeper-cache-v0.0.3';
 
 /**
  * Initially adds the files used to the cache
