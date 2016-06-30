@@ -66,6 +66,7 @@ class Cell {
         } else {
             this.element.className = this.element.className.replace(/flagged/,'');
         }
+        window.navigator.vibrate(10);
         this.isFlagged ^= true;
     }
 
