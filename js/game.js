@@ -216,6 +216,9 @@ var handleReveal = (row, col) => {
     // Reveal the cell
     minefield[row][col].reveal(count);
 
+    // Check if the gmae is done
+    if (checkComplete()) setTimeout(alert.bind(this, "Puzzle Complete! Refresh to play again"), 200);
+
     // Count the number of cells around it
     [-1, 0, 1].map((i) => {
         [-1, 0, 1].map((j) => {
@@ -237,6 +240,18 @@ var handleReveal = (row, col) => {
 
     // Show the value in the actual cell
     minefield[row][col].setValue(count);
+}
+
+var checkComplete = () => {
+    // If every non-mine tile has been revealed, then we're golden
+    count = 0;
+    minefield.map((x, r) => {
+        x.map((cell, c) => {
+            if (cell.isMine || cell.isRevealed) ++count;
+        });
+    });
+
+    return count === FIELD_SIZE * FIELD_SIZE;
 }
 
 document.addEventListener('selectstart', () => { return false; });
