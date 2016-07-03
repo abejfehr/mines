@@ -49,17 +49,16 @@
             }
 
             #main {
-                height: 100%;
+                width: 100%;
             }
 
             #minefield {
                 display: flex;
                 flex-direction: column;
                 flex-wrap: nowrap;
-                height: 95vw;
                 justify-content: space-around;
                 margin: 0 auto;
-                width: 95vw;
+                padding: 5px;
             }
 
             #flash {
@@ -101,7 +100,6 @@
                 margin: 1px;
                 padding: 0;
                 position: relative;
-                width: 9%;
             }
 
             .cell-content {
@@ -166,6 +164,21 @@
                 0%   { box-shadow: 0 0 1px orange; }
                 15%  { box-shadow: 0 0 90px orange; }
                 100% { box-shadow: none; }
+            }
+
+            /* How certain elements should look on larger displays */
+            @media screen and (min-aspect-ratio: 9/16) {
+
+                #main {
+                    height: 100%;
+                    width: 56.25vh;
+                    margin: 0 auto;
+                }
+
+                #minefield {
+                    padding: 0;
+                }
+
             }
 
         </style>
