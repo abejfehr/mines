@@ -80,7 +80,7 @@ class Cell {
         this._explodeHandler(this.row, this.col);
 
         // Vibrate the device
-        window.navigator.vibrate(45);
+        window.navigator.vibrate(20);
         var flash = document.getElementById('flash');
         flash.className += 'flashing';
         setTimeout(() => {

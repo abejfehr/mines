@@ -31,7 +31,8 @@
             }
 
             h1 {
-                animation: fadeinslow 2s;
+                animation: fadein 1.5s;
+                animation-delay: 0.5s;
                 animation-fill-mode: forwards;
                 color: #fff;
                 font-family: sans-serif;
@@ -48,7 +49,7 @@
                 color: green;
             }
 
-            #main {
+            main {
                 width: 100%;
             }
 
@@ -80,31 +81,30 @@
             }
 
             .row {
-                animation: fadeinslow 2s;
+                animation: fadein 1.5s;
+                animation-delay: 0.8s;
                 animation-fill-mode: forwards;
                 display: flex;
                 flex-grow: 1;
                 flex-wrap: nowrap;
                 justify-content: space-around;
                 opacity: 0;
-
             }
 
             .cell {
-                background-color: #eee;
+                background-color: #ddd;
                 border-radius: 5px;
                 box-shadow: 0 0 15px rgba(0, 0, 0, 0.2) inset;
                 box-sizing: border-box;
                 display: inline-block;
                 flex-grow: 1;
                 margin: 1px;
-                opacity: 0.9;
                 padding: 0;
                 position: relative;
             }
 
             .cell-content {
-                font-size: 4.5vw;
+                font-size: 20px;
                 font-family: sans-serif;
                 left: 50%;
                 position: absolute;
@@ -118,8 +118,19 @@
                 background-position: center center;
                 background-repeat: no-repeat;
                 opacity: 1;
-                /* animation: explode 1.7s; */
-                /* animation-fill-mode: forwards; */
+            }
+
+            .exploded::before {
+                animation: flash 3.7s;
+                animation-fill-mode: forwards;
+                box-shadow: 0 0 90px orange;
+                content: ' ';
+                height: 100%;
+                left: 0;
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                width: 100%;
             }
 
             .revealed {
@@ -152,28 +163,16 @@
                 to   { opacity: 1; }
             }
 
-            @keyframes fadeinslow {
-                0%   { opacity: 0; }
-                20%  { opacity: 0; }
-                100% { opacity: 1; }
-            }
-
             @keyframes flash {
                 0%   { opacity: 0; }
                 15%  { opacity: 1; }
                 100% { opacity: 0; }
             }
 
-            @keyframes explode {
-                0%   { box-shadow: 0 0 1px orange; }
-                15%  { box-shadow: 0 0 90px orange; }
-                100% { box-shadow: none; }
-            }
-
             /* How certain elements should look on larger displays */
             @media screen and (min-aspect-ratio: 9/16) {
 
-                #main {
+                main {
                     height: 100%;
                     width: 56.25vh;
                     margin: 0 auto;
@@ -188,11 +187,11 @@
         </style>
     </head>
     <body onselectstart="return false">
-        <div id="main">
+        <main>
             <div id="flash"></div>
-            <h1>mines<sup>βeta</sup></h1>
+            <h1>mines<sup>β</sup></h1>
             <div id="minefield"></div>
-        </div>
+        </main>
         <script src="js/game.js" defer></script>
     </body>
 </html>
