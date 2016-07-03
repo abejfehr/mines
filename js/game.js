@@ -47,7 +47,7 @@ class Cell {
         this.element.addEventListener('mouseout', () => { this.actionCompleted = true; });
         this.element.addEventListener('mousedown', this._handleMouseDown.bind(this));
         this.element.addEventListener('mouseup', this._handleMouseUp.bind(this));
-        this.element.addEventListener('oncontextmenu', () => { return false; });
+        this.element.addEventListener('contextmenu', this._handleMouseRightClick.bind(this));
 
         var contents = document.createElement('div');
         contents.className = 'cell-content';
@@ -100,6 +100,16 @@ class Cell {
         this.actionCompleted = true;
     }
 
+    _handleMouseRightClick (e) {
+        e.preventDefault();
+        if (this.longPressTimer && !this.actionCompleted) {
+            clearTimeout(this.longPressTimer);
+            this.toggleFlagged();
+        }
+        this.actionCompleted = true;
+        return false;
+    }
+
     _handleMouseDown (e) {
         e.preventDefault();
         this.actionCompleted = false;
@@ -108,7 +118,7 @@ class Cell {
                 this.toggleFlagged();
                 this.actionCompleted = true;
             }
-        }, 250);
+        }, LONG_PRESS_TIMEOUT);
         return false;
     }
 
@@ -155,6 +165,11 @@ const MINE_ODDS = 0.15;
  * The size of the playing field
  */
 const FIELD_SIZE = 8;
+
+/**
+ * The number of milleseconds to wait for a long press
+ */
+const LONG_PRESS_TIMEOUT = 150;
 
 /**
  * The minefield

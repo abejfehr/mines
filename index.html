@@ -98,6 +98,7 @@
                 display: inline-block;
                 flex-grow: 1;
                 margin: 1px;
+                opacity: 0.9;
                 padding: 0;
                 position: relative;
             }
@@ -116,12 +117,14 @@
                 background-color: orange;
                 background-position: center center;
                 background-repeat: no-repeat;
-                //animation: explode 1.7s;
-                //animation-fill-mode: forwards;
+                opacity: 1;
+                /* animation: explode 1.7s; */
+                /* animation-fill-mode: forwards; */
             }
 
             .revealed {
                 background-color: #fff;
+                opacity: 1;
             }
 
             .revealed .cell-content {
@@ -135,6 +138,7 @@
                 background-color: yellow;
                 background-position: center center;
                 background-repeat: no-repeat;
+                opacity: 1;
             }
 
             .flashing {
