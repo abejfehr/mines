@@ -1,197 +1,209 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="theme-color" content="#2cb5e8">
-        <title>Mines</title>
-        <link rel="manifest" href="manifest.json">
-        <link rel="icon" sizes="192x192" href="images/192.png">
-        <style>
-            ::-moz-selection{
-                background-color: transparent;
-                color:#000;
-            }
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#2cb5e8">
+    <title>Mines</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" sizes="192x192" href="images/192.png">
+    <style>
+        ::-moz-selection{
+            background-color: transparent;
+            color:#000;
+        }
 
-            ::selection {
-                background-color: transparent;
-                color:#000;
-            }
+        ::selection {
+            background-color: transparent;
+            color:#000;
+        }
 
-            html {
-                height: 100%;
-            }
+        html {
+            height: 100%;
+        }
 
-            body {
-                background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
-                height: 100%;
-                margin: 0;
-                padding: 0;
-            }
+        body {
+            background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-            h1 {
-                animation: fadein 1.5s;
-                animation-delay: 0.5s;
-                animation-fill-mode: forwards;
-                color: #fff;
-                font-family: sans-serif;
-                font-size: 50px;
-                font-weight: 100;
-                text-align: center;
-                margin: 0;
-                opacity: 0;
-                padding: 30px 0;
-            }
+        h1 {
+            animation: fadein 1.5s;
+            animation-delay: 0.5s;
+            animation-fill-mode: forwards;
+            color: #fff;
+            font-family: sans-serif;
+            font-size: 50px;
+            font-weight: 100;
+            text-align: center;
+            margin: 0;
+            opacity: 0;
+            padding: 30px 0;
+        }
 
-            sup {
-                font-size: 20px;
-                color: green;
-            }
+        sup {
+            font-size: 20px;
+            color: green;
+        }
+
+        main {
+            width: 100%;
+        }
+
+        #minefield {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: space-around;
+            margin: 0 auto;
+            padding: 5px;
+        }
+
+        #flash {
+            background-color: rgba(255, 255, 0, 0.3);
+            height: 100%;
+            left: 0;
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .cell:after {
+            content: '';
+            display: block;
+            margin-top: 100%;
+        }
+
+        .row {
+            animation: fadein 1.5s;
+            animation-delay: 0.8s;
+            animation-fill-mode: forwards;
+            display: flex;
+            flex-grow: 1;
+            flex-wrap: nowrap;
+            justify-content: space-around;
+            opacity: 0;
+        }
+
+        .cell {
+            background-color: #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2) inset;
+            box-sizing: border-box;
+            display: inline-block;
+            flex-grow: 1;
+            margin: 1px;
+            padding: 0;
+            position: relative;
+        }
+
+        .cell-content {
+            font-size: 20px;
+            font-family: sans-serif;
+            left: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .exploded {
+            background: url(images/explosion.png);
+            background-color: orange;
+            background-position: center center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 1;
+        }
+
+        .exploded::before {
+            animation: flash 3.7s;
+            animation-fill-mode: forwards;
+            box-shadow: 0 0 90px orange;
+            content: ' ';
+            height: 100%;
+            left: 0;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
+        .revealed {
+            background-color: #fff;
+            opacity: 1;
+        }
+
+        .revealed .cell-content {
+            animation: fadein 0.7s;
+            animation-fill-mode: forwards;
+            opacity: 0;
+        }
+
+        .flagged {
+            background: url(images/flag.png);
+            background-color: yellow;
+            background-size: contain;
+            background-position: center center;
+            background-repeat: no-repeat;
+            opacity: 1;
+        }
+
+        .flashing {
+            animation: flash 0.3s;
+            animation-fill-mode: forwards;
+            opacity: 1;
+        }
+
+        @keyframes fadein {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        @keyframes flash {
+            0%   { opacity: 0; }
+            15%  { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* How certain elements should look on larger displays */
+        @media screen and (min-aspect-ratio: 9/16) {
 
             main {
-                width: 100%;
+                height: 100%;
+                width: 56.25vh;
+                margin: 0 auto;
             }
 
             #minefield {
-                display: flex;
-                flex-direction: column;
-                flex-wrap: nowrap;
-                justify-content: space-around;
-                margin: 0 auto;
-                padding: 5px;
-            }
-
-            #flash {
-                background-color: rgba(255, 255, 0, 0.3);
-                height: 100%;
-                left: 0;
-                opacity: 0;
-                pointer-events: none;
-                position: absolute;
-                top: 0;
-                width: 100%;
-                z-index: 1;
-            }
-
-            .cell:after {
-                content: '';
-                display: block;
-                margin-top: 100%;
-            }
-
-            .row {
-                animation: fadein 1.5s;
-                animation-delay: 0.8s;
-                animation-fill-mode: forwards;
-                display: flex;
-                flex-grow: 1;
-                flex-wrap: nowrap;
-                justify-content: space-around;
-                opacity: 0;
-            }
-
-            .cell {
-                background-color: #ddd;
-                border-radius: 5px;
-                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2) inset;
-                box-sizing: border-box;
-                display: inline-block;
-                flex-grow: 1;
-                margin: 1px;
                 padding: 0;
-                position: relative;
             }
 
-            .cell-content {
-                font-size: 20px;
-                font-family: sans-serif;
-                left: 50%;
-                position: absolute;
-                top: 50%;
-                transform: translate(-50%, -50%);
-            }
+        }
 
-            .exploded {
-                background: url('data:image/svg+xml;utf8,<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 35.333 35.332" style="enable-background:new 0 0 35.333 35.332;" xml:space="preserve"> <g> <path stroke="red" fill="yellow" d="M30.278,30.036l-2.688-5.313c1.068-1.5,1.801-3.248,2.102-5.144l5.64-2.084l-5.658-1.857 c-0.317-1.89-1.069-3.63-2.153-5.119l2.517-5.465l-5.313,2.688c-1.5-1.069-3.25-1.802-5.146-2.103L17.495,0l-1.856,5.654 c-1.891,0.32-3.631,1.072-5.122,2.156L5.054,5.293l2.688,5.315c-1.069,1.5-1.801,3.248-2.101,5.144L0,17.836l5.658,1.855 c0.319,1.892,1.07,3.632,2.154,5.119l-2.516,5.465l5.315-2.688c1.5,1.069,3.249,1.803,5.144,2.104l2.083,5.641l1.857-5.658 c1.89-0.318,3.631-1.07,5.121-2.154L30.278,30.036z M9.474,17.667c0-4.518,3.675-8.193,8.191-8.193 c4.518,0,8.189,3.676,8.189,8.193c0,4.517-3.674,8.19-8.189,8.19C13.148,25.857,9.474,22.186,9.474,17.667z"/> </g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>');
-                background-color: orange;
-                background-position: center center;
-                background-repeat: no-repeat;
-                opacity: 1;
-            }
+    </style>
+  </head>
+  <body onselectstart="return false">
+    <main>
+      <div id="flash"></div>
+      <h1>mines<sup>β</sup></h1>
+      <div id="minefield"></div>
+    </main>
+    <script src="js/game.js" defer></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-            .exploded::before {
-                animation: flash 3.7s;
-                animation-fill-mode: forwards;
-                box-shadow: 0 0 90px orange;
-                content: ' ';
-                height: 100%;
-                left: 0;
-                opacity: 0;
-                position: absolute;
-                top: 0;
-                width: 100%;
-            }
+      ga('create', 'UA-30977471-1', 'auto');
+      ga('send', 'pageview');
 
-            .revealed {
-                background-color: #fff;
-                opacity: 1;
-            }
-
-            .revealed .cell-content {
-                animation: fadein 0.7s;
-                animation-fill-mode: forwards;
-                opacity: 0;
-            }
-
-            .flagged {
-                background: url('data:image/svg+xml;utf8,<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve"> <path stroke="blue" fill="green" d="M51.421,22.593L10,3.362V1c0-0.553-0.448-1-1-1S8,0.447,8,1v3v33v3v19c0,0.553,0.448,1,1,1s1-0.447,1-1V40.681 l41.366-16.251c0.373-0.146,0.622-0.501,0.634-0.9C52.012,23.13,51.784,22.762,51.421,22.593z"/> <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>');
-                background-color: yellow;
-                background-position: center center;
-                background-repeat: no-repeat;
-                opacity: 1;
-            }
-
-            .flashing {
-                animation: flash 0.3s;
-                animation-fill-mode: forwards;
-                opacity: 1;
-            }
-
-            @keyframes fadein {
-                from { opacity: 0; }
-                to   { opacity: 1; }
-            }
-
-            @keyframes flash {
-                0%   { opacity: 0; }
-                15%  { opacity: 1; }
-                100% { opacity: 0; }
-            }
-
-            /* How certain elements should look on larger displays */
-            @media screen and (min-aspect-ratio: 9/16) {
-
-                main {
-                    height: 100%;
-                    width: 56.25vh;
-                    margin: 0 auto;
-                }
-
-                #minefield {
-                    padding: 0;
-                }
-
-            }
-
-        </style>
-    </head>
-    <body onselectstart="return false">
-        <main>
-            <div id="flash"></div>
-            <h1>mines<sup>β</sup></h1>
-            <div id="minefield"></div>
-        </main>
-        <script src="js/game.js" defer></script>
-    </body>
+    </script>
+  </body>
 </html>
